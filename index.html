@@ -1,30 +1,97 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>CodePen - Apple AirPods Pro Animation (final demo)</title>
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css"> -->
+    <link rel="stylesheet" href="./style.css" />
+    <style>
+      body{
+        overflow-x: hidden;
+      }
+      .section{
+        opacity: 0.5;
+        position: relative;
+        z-index: 999;
+        height: 100vh;
+      }
+      #hero-lightpass{
+        height: 100vh;
+        position: sticky;
+        top: 0px;
+        /* margin-bottom: -97.5vh!important; */
+        overflow-x: hidden;
+     
+      }
+      #start_wwd_amin{
+        height: auto;
+      }
+      *{
+        margin: 0px !important;
+      }
+    </style>
+  </head>
 
-<head>
-  <meta charset="UTF-8">
-  <title>CodePen - Apple AirPods Pro Animation (final demo)</title>
-  <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css"> -->
-  <link rel="stylesheet" href="./style.css">
+  <body>
+    <div id="start_wwd_amin">
+      <canvas id="hero-lightpass" ></canvas>
+      <div class="section" style="background-color: rgb(248, 2, 84); width: 100%;margin-top: -100vh!important;"></div>
+      <div class="section" style="background-color: rgb(2, 129, 248); width: 100%"></div>
+      <div class="section" style="background-color: rgb(248, 2, 105); width: 100%"></div>
+      <div class="section" style="background-color: rgb(236, 199, 214); width: 100%"></div>
+   </div>
+    </div>
+    <div id="canvas_wwd_box" style="width: 100%"></div>
+    <div style="height: 100vh; background-color: rgb(128, 0, 43); width: 100%;opacity: 0.5"></div>
 
-</head>
+    <!-- partial -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.6.0/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1/bundled/lenis.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+"use strict"; // fix lenis in safari
 
-<body>
-  <!-- partial:index.partial.html -->
-  <div style="background-color: red;height:300px;width:100%"></div>
-  <div style="background-color: red;height:300px;width:100%"></div>
-  <div style="background-color: blue;height:300px;width:100%"></div>
-  <div style="background-color: blue;height:300px;width:100%"></div>
-  <div id="start_wwd_amin" style="min-height:300px;width:100%">
-    <canvas id="hero-lightpass" />
-  </div>
-  <div id="canvas_wwd_box" style="width:100%"></div>
-  <div style="min-height:300px;background-color: green;width:100%"></div>
+if (true) {
+const lenis = new Lenis({
+lerp: 0.1,
+wheelMultiplier: 1.5,
+infinite: false,
+gestureOrientation: "vertical",
+normalizeWheel: false,
+smoothTouch: false
+});
 
+function raf(time) {
+lenis.raf(time);
+requestAnimationFrame(raf);
+}
+requestAnimationFrame(raf);
 
-  <!-- partial -->
-  <script src="./script.js"></script>
+$("[data-lenis-start]").on("click", function () {
+lenis.start();
+});
+$("[data-lenis-stop]").on("click", function () {
+lenis.stop();
+});
+$("[data-lenis-toggle]").on("click", function () {
+$(this).toggleClass("stop-scroll");
+if ($(this).hasClass("stop-scroll")) {
+lenis.stop();
+} else {
+lenis.start();
+}
+});
 
-</body>
-
+function connectToScrollTrigger() {
+lenis.on("scroll", ScrollTrigger.update);
+gsap.ticker.add((time) => {
+lenis.raf(time * 1000);
+});
+}
+// Uncomment this if using GSAP ScrollTrigger
+// connectToScrollTrigger();
+}
+</script>
+    <script src="./script.js"></script>
+  </body>
 </html>

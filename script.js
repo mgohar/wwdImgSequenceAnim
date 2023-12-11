@@ -2,30 +2,68 @@ const html = document.documentElement;
 const canvas = document.getElementById("hero-lightpass");
 const context = canvas.getContext("2d");
 
-const frameCount = 226;
+const windowWidth = window.innerWidth;
+const frameCount = 400;
+let screen = "lg_c";
+let extension = "jpg";
+if (windowWidth < 576) {
+  screen = "sm_c"; // Extra Small
+} else if (windowWidth < 769) {
+  screen = "md_c"; // Small
+} else if (windowWidth < 992) {
+  screen = "lg_c"; // Medium
+} else if (windowWidth < 1200) {
+  screen = "xl_c"; // Large
+} else if (windowWidth < 1400) {
+  screen = "xxl_c"; // Extra Large
+} else {
+  screen = "xxxl_c"; // Larger than 1400 pixels
+  extension="png"
+}
+
+console.log("Screen size: " + screen);
+
+
+
 const currentFrame = (index) => {
-  return `WWD/wwd (${index}).png`
-};
-
-
-const preloadImages = () => {
-  for (let i = 2; i < frameCount; i++) {
-    const img = new Image();
-    img.src = currentFrame(i);
-  }
+  return `V2/${screen}/RG (${index}).${extension}`
 };
 
 const img = new Image();
-img.src = currentFrame(2);
-canvas.width = 1158;
-canvas.height = 770;
+img.src = currentFrame(1);
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+
+// Calculate aspect ratios
+var imageAspectRatio = img.width / img.height;
+var canvasAspectRatio = canvas.width / canvas.height;
+
+// Calculate scaling factors
+var scaleWidth = 1;
+var scaleHeight = 1;
+
+if (imageAspectRatio > canvasAspectRatio) {
+    // Image is wider than the canvas
+    scaleWidth = canvas.width / img.width;
+} else {
+    // Image is taller or has the same aspect ratio as the canvas
+    scaleHeight = canvas.height / img.height;
+}
+
+// Calculate the new dimensions to cover the canvas
+var newWidth = img.width * scaleWidth;
+var newHeight = img.height * scaleHeight;
+
+
 img.onload = function () {
-  context.drawImage(img, 0, 0);
+  context.drawImage(img, 0, 0, canvas.width, canvas.height);
 };
 
 const updateImage = (index) => {
   img.src = currentFrame(index);
-  context.drawImage(img, 0, 0);
+  context.drawImage(img, 0, 0, canvas.width, canvas.height);
 };
 
 const specificPointsInit = getSectionScrollPoints("start_wwd_amin");
@@ -33,7 +71,7 @@ const wwdaminInit = document.getElementById("hero-lightpass");
 const canvas_wwd_box = document.getElementById("canvas_wwd_box");
 const wwdaminCanvas = document.getElementById("hero-lightpass");
 console.log("wwdaminCanvas.innerHeight",wwdaminCanvas.height)
-canvas_wwd_box.style.height=`${wwdaminCanvas.height-100}px`
+// canvas_wwd_box.style.height=`${wwdaminCanvas.height-100}px`
 wwdaminInit.style.top = `0px`;
 window.addEventListener("scroll", () => {
   const specificPoints = getSectionScrollPoints("start_wwd_amin");
@@ -73,33 +111,30 @@ window.addEventListener("scroll", () => {
   ) {
     const wwdamin = document.getElementById("hero-lightpass");
 
-    wwdamin.style.position = "fixed";
-    wwdamin.style.top = "0px";
+    // wwdamin.style.position = "fixed";
+    // wwdamin.style.top = "0px";
   } else if (html.scrollTop >= specificPoints.end) {
     const wwdamin = document.getElementById("hero-lightpass");
 
-    wwdamin.style.position = "absolute";
-    wwdamin.style.top = `${specificPoints.end}px`;
+    // wwdamin.style.position = "absolute";
+    // wwdamin.style.top = `${specificPoints.end}px`;
   } else if (html.scrollTop <= specificPoints.start) {
-    wwdaminInit.style.position = "relative";
-    wwdaminInit.style.top = `0px`;
+    // wwdaminInit.style.position = "fixed";
+    // wwdaminInit.style.top = `0px`;
   }
 });
 
-preloadImages();
+
 
 function getSectionScrollPoints(sectionId) {
   const section = document.getElementById(sectionId);
-
   if (section) {
     const scrollStart = section.offsetTop;
     const scrollEnd = scrollStart + section.offsetHeight;
-
     return {
       start: scrollStart,
       end: scrollEnd,
     };
   }
-
   return null; // Section not found
 }
