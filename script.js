@@ -26,7 +26,7 @@ console.log("Screen size: " + screen);
 
 
 const currentFrame = (index) => {
-  return `https://cdn.jsdelivr.net/gh/mgohar/wwd_img_sequence_anim@1.0.1/V2/${screen}/RG%20(${index}).${extension}`
+  return `https://cdn.jsdelivr.net/gh/mgohar/wwd_img_sequence_anim@1.0.2/Viewport/RG%20(${index}).${extension}`
 };
 
 const img = new Image();
