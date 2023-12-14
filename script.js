@@ -26,10 +26,11 @@ console.log("Screen size: " + screen);
 
 
 const currentFrame = (index) => {
-  return `V2/${screen}/RG (${index}).${extension}`
+  return `https://cdn.jsdelivr.net/gh/mgohar/wwd_img_sequence_anim@1.0.1/V2/${screen}/RG%20(${index}).${extension}`
 };
 
 const img = new Image();
+console.log(currentFrame(1));
 img.src = currentFrame(1);
 
 canvas.width = window.innerWidth;
@@ -62,6 +63,7 @@ img.onload = function () {
 };
 
 const updateImage = (index) => {
+  console.log(currentFrame(index));
   img.src = currentFrame(index);
   context.drawImage(img, 0, 0, canvas.width, canvas.height);
 };
@@ -111,16 +113,16 @@ window.addEventListener("scroll", () => {
   ) {
     const wwdamin = document.getElementById("hero-lightpass");
 
-    // wwdamin.style.position = "fixed";
-    // wwdamin.style.top = "0px";
+    wwdamin.style.position = "fixed";
+    wwdamin.style.top = "0px";
   } else if (html.scrollTop >= specificPoints.end) {
     const wwdamin = document.getElementById("hero-lightpass");
 
-    // wwdamin.style.position = "absolute";
-    // wwdamin.style.top = `${specificPoints.end}px`;
+    wwdamin.style.position = "absolute";
+    wwdamin.style.top = `${specificPoints.end}px`;
   } else if (html.scrollTop <= specificPoints.start) {
-    // wwdaminInit.style.position = "fixed";
-    // wwdaminInit.style.top = `0px`;
+    wwdaminInit.style.position = "fixed";
+    wwdaminInit.style.top = `0px`;
   }
 });
 
